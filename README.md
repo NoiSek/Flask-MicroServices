@@ -72,7 +72,7 @@ def admin_panel():
 
 `project_root/appname/admin/templates/main.html`
 
-```
+```html
 <html>
   <h1> Holy cow! </h1>
   <p> If the router was unable to find this file, then it would try your root level templates folder at `project_root/appname/templates/main.html` before failing.</p>
