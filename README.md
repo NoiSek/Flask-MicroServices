@@ -8,7 +8,7 @@ Alpha.
 
 `project_root/appname/__init__.py`
 
-```
+```python
 from Flask_MicroServices import MicroServicesApp
 
 app = MicroServicesApp(__name__)
@@ -27,7 +27,7 @@ app.run()
 
 `project_root/appname/admin/__init__.py`
 
-```
+```python
 from Flask_MicroServices import Router
 from . import urls
 
@@ -41,7 +41,7 @@ blueprint.register_urls(urls.urlpatterns)
 
 `project_root/appname/admin/urls.py`
 
-```
+```python
 from Flask_MicroServices import url
 from . import views
 
@@ -61,7 +61,7 @@ urlpatterns = [
 
 `project_root/appname/admin/views.py`
 
-```
+```python
 from flask import render_template
 from ExampleApp.ExampleWrappers import admin_access_required
 
