@@ -1,4 +1,4 @@
-# `Flask MicroServices`
+# `Flask-MicroServices`
 
 Isolated, self contained apps for Flask. A form of the micro-service concept, with Django style routes and app level template resolution.
 

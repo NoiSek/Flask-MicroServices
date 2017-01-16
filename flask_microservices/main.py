@@ -2,6 +2,8 @@ from flask import Blueprint, Flask
 from flask.helpers import send_from_directory
 from flask.templating import DispatchingJinjaLoader
 
+from exceptions import InvalidModulePath
+
 from collections import namedtuple
 from importlib import import_module
 
@@ -22,7 +24,41 @@ class MicroServicesApp(Flask):
     def __init__(self, name):
         super(MicroServicesApp, self).__init__(name)
         self.jinja_options = Flask.jinja_options.copy()
-        self.jinja_options['loader'] = MicroLoader(self)
+        self.jinja_options['loader'] = MicroServicesLoader(self)
+
+    def register_urls(self, modules, path="modules"):
+        """Resolves a given app, module list, and module path into
+        usable blueprints.
+        """
+
+        cwd = os.getcwd()
+        path = os.path.normpath(path)
+        module_dir = os.path.join(cwd, path)
+
+        # Firstly, Does this path actually exist?
+
+        if not os.path.exists(module_dir):
+            exception_message = "Invalid module path provided. With the given path, your modules should be located at {}".format(module_dir)
+            raise InvalidModulePath(exception_message)
+
+        # Now we determine the module name hierarchy.
+        # With the default settings, this will result in 'appname.modules'
+
+        app_name = os.path.split(cwd)[-1]
+        module_location = ".".join(os.path.split(path))
+
+        if module_location.startswith("."):
+            module_location = module_location[1:]
+
+        if module_location.endswith("."):
+            module_location = module_location[:-1]
+
+        module_hierarchy = "{}.{}".format(app_name, module_location)
+
+        for module_name in modules:
+            formatted_module = "{}.{}".format(module_hierarchy, module_name)
+            __module = import_module(formatted_module)
+            self.register_blueprint(__module.blueprint)
 
     def send_static_file(self, filename):
         for blueprint_name, blueprint in self.blueprints.items():
@@ -34,7 +70,7 @@ class MicroServicesApp(Flask):
         return super(MicroServicesApp, self).send_static_file(filename)
 
 
-class MicroRouter(Blueprint):
+class Router(Blueprint):
     """URL Routing syntas xugar."""
 
     @classmethod
@@ -58,7 +94,7 @@ class MicroRouter(Blueprint):
             )
 
 
-class MicroLoader(DispatchingJinjaLoader):
+class MicroServicesLoader(DispatchingJinjaLoader):
     """Prevent template namespace collisions between modules.
 
     Additionally, prefer local templates to global templates.
@@ -77,7 +113,7 @@ class MicroLoader(DispatchingJinjaLoader):
 
 
 def url(rule, view_func, name=None, methods=["GET"]):
-    """Simple URL wrapper for MicroRouter.
+    """Simple URL wrapper for `Flask-MicroServices.Router`.
 
     Usage:
     ```
@@ -96,38 +132,3 @@ def url(rule, view_func, name=None, methods=["GET"]):
 
     __url = namedtuple('Url', ['rule', 'name', 'view_func', 'methods'])
     return __url(rule, name, view_func, methods)
-
-
-def register_urls(app, modules, path="modules"):
-    """Resolves a given app, module list, and module path into
-    usable blueprints.
-    """
-
-    cwd = os.getcwd()
-    path = os.path.normpath(path)
-    module_dir = os.path.join(cwd, path)
-
-    # Firstly, Does this path actually exist?
-
-    if not os.path.exists(module_dir):
-        exception_message = "Invalid module path provided. With the given path, your modules should be located at {}".format(module_dir)
-        raise Exception(exception_message)
-
-    # Now we determine the module name hierarchy.
-    # With the default settings, this will result in 'appname.modules'
-
-    app_name = os.path.split(cwd)[-1]
-    module_location = ".".join(os.path.split(path))
-
-    if module_location.startswith("."):
-        module_location = module_location[1:]
-
-    if module_location.endswith("."):
-        module_location = module_location[:-1]
-
-    module_hierarchy = "{}.{}".format(app_name, module_location)
-
-    for module_name in modules:
-        formatted_module = "{}.{}".format(module_hierarchy, module_name)
-        __module = import_module(formatted_module)
-        app.register_blueprint(__module.blueprint)
