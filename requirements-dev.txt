@@ -1,0 +1,7 @@
+# Default requirements
+-r requirements.txt
+
+# Testing
+coveralls
+pytest
+pytest-cov
