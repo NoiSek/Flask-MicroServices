@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/NoiSek/Flask-MicroServices.svg?branch=master)](https://travis-ci.org/NoiSek/Flask-MicroServices) [![Coverage Status](https://coveralls.io/repos/github/NoiSek/Flask-MicroServices/badge.svg?branch=master)](https://coveralls.io/github/NoiSek/Flask-MicroServices?branch=master)
+
 # `Flask-MicroServices`
 
 Isolated, self contained apps for Flask. A form of the micro-service concept, with Django style routes and app level template resolution.
