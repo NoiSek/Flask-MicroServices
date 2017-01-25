@@ -1,3 +1,11 @@
+from flask_microservices import (
+  MicroServicesApp,
+  MicroServicesLoader,
+  Router,
+  url,
+  exceptions
+)
+
 def test(x):
   return True
 
