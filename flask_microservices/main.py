@@ -1,19 +1,14 @@
 from flask import Blueprint, Flask
+from flask.globals import _request_ctx_stack
 from flask.helpers import send_from_directory
 from flask.templating import DispatchingJinjaLoader
 
-from exceptions import InvalidModulePath
+from .exceptions import InvalidModulePath
 
 from collections import namedtuple
 from importlib import import_module
 
-import os.getcwd
-import os.path
-
-try:
-    from flask import _app_ctx_stack as stack
-except ImportError:
-    from flask.globals import _request_ctx_stack as stack
+import os
 
 
 class MicroServicesApp(Flask):
@@ -31,7 +26,7 @@ class MicroServicesApp(Flask):
         usable blueprints.
         """
 
-        cwd = os.getcwd()
+        cwd = self.root_path
         path = os.path.normpath(path)
         module_dir = os.path.join(cwd, path)
 
@@ -101,7 +96,7 @@ class MicroServicesLoader(DispatchingJinjaLoader):
     This means that global templates will no longer override local templates.
     """
     def _iter_loaders(self, template):
-        blueprint = stack.top.request.blueprint
+        blueprint = _request_ctx_stack.top.request.blueprint
         if blueprint is not None and blueprint in self.app.blueprints:
             loader = self.app.blueprints[blueprint].jinja_loader
             if loader is not None:
