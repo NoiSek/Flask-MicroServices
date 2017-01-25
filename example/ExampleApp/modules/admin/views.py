@@ -3,4 +3,4 @@ from ExampleApp.ExampleWrappers import admin_access_required
 
 @admin_access_required
 def admin_panel():
-    return render_template('admin/main.html')
+    return render_template('main.html')
