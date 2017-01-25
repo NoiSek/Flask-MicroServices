@@ -6,4 +6,3 @@ coveralls
 pytest
 pytest-cov
 pytest-pythonpath
-coveralls
