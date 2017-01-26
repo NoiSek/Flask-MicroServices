@@ -108,14 +108,14 @@ class MicroServicesLoader(DispatchingJinjaLoader):
             loader = self.app.blueprints[blueprint].jinja_loader
             if loader is not None:
                 # Depending on the version, we must return different things.
-                if FLASK_VERSION <= 0.10:
+                if FLASK_VERSION <= 0.10: # pragma: no cover
                     yield loader, template
                 else:
                     yield blueprint, loader
 
         loader = self.app.jinja_loader
         if loader is not None:
-            if FLASK_VERSION <= 0.10:
+            if FLASK_VERSION <= 0.10: # pragma: no cover
                 yield loader, template
             else:
                 yield self.app, loader

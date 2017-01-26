@@ -15,13 +15,18 @@ def example_hierarchy(tmpdir_factory):
 
     module_root = root.mkdir('modules')
     module = module_root.mkdir('home')
-    templates = module.mkdir('templates')
+
+    root_templates = root.mkdir('templates')
+    module_templates = module.mkdir('templates')
 
     init = module.join('__init__.py')
     urls = module.join('urls.py')
     views = module.join('views.py')
 
-    home = templates.join('home.html')
+    module_home = module_templates.join('home.html')
+    module_help = module_templates.join('help.html')
+    root_home = root_templates.join('home.html')
+    root_about = root_templates.join('about.html')
 
     root.join('__init__.py').write("\n")
     module_root.join('__init__.py').write("\n")
@@ -42,7 +47,8 @@ def example_hierarchy(tmpdir_factory):
         "from . import views",
 
         "urlpatterns = [",
-        "    url('/', view_func=views.home, name='home')",
+        "    url('/', view_func=views.home, name='home'),",
+        "    url('/help', view_func=views.help)",
         "]"
     ]))
 
@@ -51,11 +57,32 @@ def example_hierarchy(tmpdir_factory):
 
         "def home():",
         "    return render_template('home.html')",
+
+        "def help():",
+        "    return render_template('help.html')"
     ]))
 
-    home.write("\n".join([
+    root_home.write("\n".join([
+        "<html>",
+        "  <h1> Root! </h1>",
+        "</html>"
+    ]))
+
+    root_about.write("\n".join([
+        "<html>",
+        "  <h1> About! </h1>",
+        "</html>"
+    ]))
+
+    module_home.write("\n".join([
         "<html>",
         "  <h1> Home! </h1>",
+        "</html>"
+    ]))
+
+    module_help.write("\n".join([
+        "<html>",
+        "  <h1> Help! </h1>",
         "</html>"
     ]))
 

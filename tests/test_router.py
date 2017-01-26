@@ -2,8 +2,6 @@ import pytest
 
 
 from flask_microservices import (
-    MicroServicesApp,
-    Router,
     url,
     exceptions
 )
@@ -21,8 +19,8 @@ def test_router_returns_expected(blueprint):
 
 def test_router_registers_correctly(app, blueprint):
     urlpatterns = [
-      url('/', view_func=lambda x: x, name='home'),
-      url('/test', view_func=lambda x: x, name='test')
+        url('/', view_func=lambda x: x, name='home'),
+        url('/test', view_func=lambda x: x, name='test')
     ]
 
     blueprint.register_urls(urlpatterns)
@@ -44,10 +42,10 @@ def test_router_registers_correctly(app, blueprint):
 
 def test_router_fails_correctly(app, blueprint):
     urlpatterns = [
-      url('/', view_func=lambda x: x, name='home'),
-      'not a pattern',
-      url('/test', view_func=lambda x: x, name='test')
+        url('/', view_func=lambda x: x, name='home'),
+        'not a pattern',
+        url('/test', view_func=lambda x: x, name='test')
     ]
 
     with pytest.raises(exceptions.InvalidURLPattern):
-      blueprint.register_urls(urlpatterns)
+        blueprint.register_urls(urlpatterns)
