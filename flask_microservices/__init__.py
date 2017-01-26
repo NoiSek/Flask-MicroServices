@@ -6,6 +6,7 @@ from flask.templating import DispatchingJinjaLoader
 from .exceptions import (
     InvalidModulePath,
     InvalidURLFunction,
+    InvalidURLName,
     InvalidURLPattern,
     UnspecifiedURLMethods
 )
@@ -140,7 +141,7 @@ def url(rule, view_func, name=None, methods=["GET"]):
     of a normal flask URL.
     """
 
-    if not isinstance(rule, str):
+    if not isinstance(rule, str) or not rule:
         raise InvalidURLPattern(
             "Received an invalid urlpattern `rule`: {}.".format(rule)
         )
@@ -150,7 +151,12 @@ def url(rule, view_func, name=None, methods=["GET"]):
             "Received an invalid `view_func`: {}.".format(view_func)
         )
 
-    if len(list(filter(None, methods))) < 1:
+    if (not isinstance(name, str) and name is not None) or (isinstance(name, str) and not name):
+        raise InvalidURLName(
+            "Received an invalid URL `name`: {}.".format(name)
+        )
+
+    if (not isinstance(methods, list)) or len(list(filter(None, methods))) < 1:
         raise UnspecifiedURLMethods(
             "Received an empty list, or list of null strings."
         )

@@ -19,6 +19,12 @@ class InvalidURLPattern(Exception):
 
   pass
 
+class InvalidURLName(Exception):
+  """Raised when a non-string value is passed as a name.
+  """
+
+  pass
+
 class UnspecifiedURLMethods(Exception):
   """Raised when an empty list, or a list of blank strings
    is passed as a method.

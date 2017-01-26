@@ -69,12 +69,44 @@ def test_url_returns_valid_complex():
     assert _url.name == '_home'
 
     # Should return correct values when provided a mixture of named and unnamed arguments.
-    _url = url('/', lambda x: x, name='home', methods=['GET', 'PUT'])
+    _url = url('/', lambda x: x, name=None, methods=['GET', 'PUT'])
 
     assert _url.view_func(7) == 7
     assert _url.methods == ['GET', 'PUT']
-    assert _url.name == 'home'
+    assert _url.name is None
 
+def test_url_returns_invalid_simple():
+    with pytest.raises(exceptions.InvalidURLPattern):
+        _url = url('', lambda x: x)
+
+    with pytest.raises(exceptions.InvalidURLPattern):
+        _url = url(10, lambda x: x)
+
+    with pytest.raises(exceptions.InvalidURLFunction):
+        _url = url('/', 'hypothetical_function_name')
+
+    with pytest.raises(exceptions.InvalidURLFunction):
+        do = lambda x: x
+        _url = url('/', do(10))
+
+def test_url_returns_invalid_complex():
+    with pytest.raises(exceptions.InvalidURLName):
+        _url = url('/', lambda x: x, name=1)
+
+    with pytest.raises(exceptions.InvalidURLName):
+        _url = url('/', lambda x: x, name='')
+
+    with pytest.raises(exceptions.UnspecifiedURLMethods):
+        _url = url('/', lambda x: x, methods=[])
+
+    with pytest.raises(exceptions.UnspecifiedURLMethods):
+        _url = url('/', lambda x: x, methods=[''])
+
+    with pytest.raises(exceptions.UnspecifiedURLMethods):
+        _url = url('/', lambda x: x, methods='GET')
+
+    with pytest.raises(exceptions.UnspecifiedURLMethods):
+        _url = url('/', lambda x: x, methods=1)
 
 def test_router_returns_expected(blueprint):
     from flask import Blueprint
