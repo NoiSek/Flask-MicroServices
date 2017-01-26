@@ -1,4 +1,4 @@
-from Flask_MicroServices import MicroServicesApp
+from flask_microservices import MicroServicesApp
 
 app = MicroServicesApp(__name__)
 

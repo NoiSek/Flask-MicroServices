@@ -1,3 +1,14 @@
 <html>
   <h1> Home! </h1>
+  <h4> Test me: </h4>
+  <ul>
+    <li><a href="{{ url_for('home.home') }}">Home (You are here)</a> - Template Override</li>
+    <li><a href="{{ url_for('forum.admin') }}">Forum Admin</a> - Root / Module Template Extension</li>
+    <li><a href="{{ url_for('admin.home') }}">Site Admin</a></li>
+    <li><a href="{{ url_for('forum.home') }}">Forum</a></li>
+    <li><a href="{{ url_for('forum.home') }}board/test">Forum Board</a></li>
+    <li><a href="{{ url_for('static', filename='a.txt') }}">Root a.txt</a></li>
+    <li><a href="{{ url_for('static', filename='b.txt') }}">Module b.txt</a></li>
+    <li><a href="{{ url_for('static', filename='c.txt') }}">Module c.txt</a> - Static Override</li>
+  </ul>
 </html>
