@@ -31,9 +31,9 @@ Check out the example project at [./example](example), or read below for a minim
 
 - [Project Layout](#project-layout)
   - [`__init__.py`](#approot-init)
-  - [modules]
-    - [home]
-      - [templates]
+  - `modules/`
+    - `home/`
+      - `templates/`
         - [`main.html`](#module-template)
       - [`__init__.py`](#module-init)
       - [`urls.py`](#module-urls)
@@ -131,7 +131,7 @@ def admin_panel():
     return render_template('admin/main.html')
 ```
 
-#### Module Views
+#### Module Template
 
 `project_root/appname/admin/templates/admin/main.html`
 
