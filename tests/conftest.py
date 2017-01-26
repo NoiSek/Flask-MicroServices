@@ -12,24 +12,41 @@ from flask_microservices import (
 @pytest.fixture(scope='session')
 def example_hierarchy(tmpdir_factory):
     root = tmpdir_factory.mktemp('approot', numbered=False)
-
     module_root = root.mkdir('modules')
+
     module = module_root.mkdir('home')
 
+    # Create Template dirs
     root_templates = root.mkdir('templates')
     module_templates = module.mkdir('templates')
 
+    # Create Static dirs
+    root_static = root.mkdir('static')
+    module_static = module.mkdir('static')
+
+    # Initialize our module file layout
     init = module.join('__init__.py')
     urls = module.join('urls.py')
     views = module.join('views.py')
 
+    # Initialize our templates
     module_home = module_templates.join('home.html')
     module_help = module_templates.join('help.html')
     root_home = root_templates.join('home.html')
     root_about = root_templates.join('about.html')
 
+    # Initialize our static files
+    root_static_a = root_static.join('a.txt')
+    module_static_b = module_static.join('b.txt')
+
+    root_static_c = root_static.join('c.txt')
+    module_static_c = module_static.join('c.txt')
+
+    # Make sure our imports will function properly.
     root.join('__init__.py').write("\n")
     module_root.join('__init__.py').write("\n")
+
+    # Setup our module files
 
     init.write("\n".join([
         "from flask_microservices import Router",
@@ -62,6 +79,8 @@ def example_hierarchy(tmpdir_factory):
         "    return render_template('help.html')"
     ]))
 
+    # Write root templates
+
     root_home.write("\n".join([
         "<html>",
         "  <h1> Root! </h1>",
@@ -74,6 +93,8 @@ def example_hierarchy(tmpdir_factory):
         "</html>"
     ]))
 
+    # Write module templates
+
     module_home.write("\n".join([
         "<html>",
         "  <h1> Home! </h1>",
@@ -85,6 +106,14 @@ def example_hierarchy(tmpdir_factory):
         "  <h1> Help! </h1>",
         "</html>"
     ]))
+
+    # Write static files
+
+    root_static_a.write('root_a')
+    module_static_b.write('module_b')
+
+    root_static_c.write('root_c')
+    module_static_c.write('module_c')
 
     return root
 

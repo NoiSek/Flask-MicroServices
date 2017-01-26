@@ -1,11 +1,11 @@
 import pytest
 
+from flask import render_template
 from flask_microservices import (
     MicroServicesLoader,
     exceptions
 )
 
-from flask import render_template
 
 def test_loader_returns_valid_module_template(app):
     enabled_modules = [

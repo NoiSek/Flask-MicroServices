@@ -56,3 +56,57 @@ def test_app_fails_on_invalid_module_path(app):
 
     # Should not create a blueprint
     assert 'home' not in app.blueprints
+
+
+def test_app_static_returns_root(app):
+    enabled_modules = [
+        'home'
+    ]
+
+    app.register_urls(enabled_modules)
+
+    with app.test_request_context('/static/a.txt'):
+        response = app.send_static_file('a.txt')
+
+        assert response.response.file.read() == b'root_a'
+
+
+def test_app_static_returns_module(app):
+    enabled_modules = [
+        'home'
+    ]
+
+    app.register_urls(enabled_modules)
+
+    with app.test_request_context('/static/b.txt'):
+        response = app.send_static_file('b.txt')
+
+        assert response.response.file.read() == b'module_b'
+
+
+def test_app_static_overrides_root(app):
+    enabled_modules = [
+        'home'
+    ]
+
+    app.register_urls(enabled_modules)
+
+    with app.test_request_context('/static/c.txt'):
+        response = app.send_static_file('c.txt')
+
+        assert response.response.file.read() == b'module_c'
+
+
+def test_app_static_fails_correctly(app):
+    enabled_modules = [
+        'home'
+    ]
+
+    app.register_urls(enabled_modules)
+
+    # Application should still fail when provided with an invalid static path.
+    from werkzeug.exceptions import NotFound
+
+    with pytest.raises(NotFound):
+        with app.test_request_context('/static/notexists.txt'):
+            response = app.send_static_file('notexists.txt')
