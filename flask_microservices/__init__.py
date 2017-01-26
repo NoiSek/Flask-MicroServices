@@ -3,7 +3,12 @@ from flask.globals import _request_ctx_stack
 from flask.helpers import send_from_directory
 from flask.templating import DispatchingJinjaLoader
 
-from .exceptions import InvalidModulePath
+from .exceptions import (
+    InvalidModulePath,
+    InvalidURLFunction,
+    InvalidURLPattern,
+    UnspecifiedURLMethods
+)
 
 from collections import namedtuple
 from importlib import import_module
@@ -134,6 +139,21 @@ def url(rule, view_func, name=None, methods=["GET"]):
     # Note also that the name and view_func parameters are reversed from that
     of a normal flask URL.
     """
+
+    if not isinstance(rule, str):
+        raise InvalidURLPattern(
+            "Received an invalid urlpattern `rule`: {}.".format(rule)
+        )
+
+    if not callable(view_func):
+        raise InvalidURLFunction(
+            "Received an invalid `view_func`: {}.".format(view_func)
+        )
+
+    if len(list(filter(None, methods))) < 1:
+        raise UnspecifiedURLMethods(
+            "Received an empty list, or list of null strings."
+        )
 
     __url = namedtuple('Url', ['rule', 'name', 'view_func', 'methods'])
     return __url(rule, name, view_func, methods)
