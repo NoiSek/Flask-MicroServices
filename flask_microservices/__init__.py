@@ -16,6 +16,7 @@ from collections import namedtuple
 from importlib import import_module
 
 import os
+import sys
 
 
 FLASK_VERSION = float(__version__)
@@ -26,8 +27,8 @@ class MicroServicesApp(Flask):
     files from Blueprints before 404'ing.
     """
 
-    def __init__(self, name):
-        super(MicroServicesApp, self).__init__(name)
+    def __init__(self, name, *args, **kwargs):
+        super(MicroServicesApp, self).__init__(name, *args, **kwargs)
         self.jinja_options = self.jinja_options.copy()
         self.jinja_options['loader'] = MicroServicesLoader(self)
 
@@ -46,24 +47,17 @@ class MicroServicesApp(Flask):
             exception_message = "Invalid module path provided. With the given path, your modules should be located at {}".format(module_dir)
             raise InvalidModulePath(exception_message)
 
-        # Now we determine the module name hierarchy.
-        # With the default settings, this will result in 'appname.modules'
+        # Let's add it to the syspath.
+        sys.path.append(module_dir)
 
-        app_name = os.path.split(cwd)[-1]
-        module_location = ".".join(os.path.split(path))
-
-        if module_location.startswith("."):
-            module_location = module_location[1:]
-
-        if module_location.endswith("."):
-            module_location = module_location[:-1]
-
-        module_hierarchy = "{}.{}".format(app_name, module_location)
-
+        # Register each module's blueprints to the app instance
         for module_name in modules:
-            formatted_module = "{}.{}".format(module_hierarchy, module_name)
+            formatted_module = "{}".format(module_name)
             __module = import_module(formatted_module)
             self.register_blueprint(__module.blueprint)
+
+        # Clean up after ourselves, because we're nice, suave gentlemen.
+        sys.path.remove(module_dir)
 
     def send_static_file(self, filename):
         for blueprint_name, blueprint in self.blueprints.items():

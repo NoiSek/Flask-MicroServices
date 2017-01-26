@@ -9,16 +9,6 @@ from flask_microservices import (
 )
 
 
-@pytest.fixture
-def app():
-    return MicroServicesApp("testapp")
-
-
-@pytest.fixture
-def blueprint():
-    return Router.create_blueprint('home', 'module_home')
-
-
 def test_router_returns_expected(blueprint):
     from flask import Blueprint
 

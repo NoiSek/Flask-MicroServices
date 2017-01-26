@@ -1,4 +1,4 @@
-from Flask_MicroServices import url
+from flask_microservices import url
 from . import views
 
 urlpatterns = [

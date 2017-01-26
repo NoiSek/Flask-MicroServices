@@ -1,4 +1,4 @@
-from Flask_MicroServices import Router
+from flask_microservices import Router
 from . import urls
 
 MODULE_NAME = 'forum'

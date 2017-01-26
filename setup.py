@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='Flask-MicroServices',
-    version='0.22',
+    version='0.3',
     url='http://github.com/noisek/Flask-MicroServices',
     license='MIT',
     author='Noi Sek',
