@@ -51,10 +51,10 @@ def test_url_returns_valid_complex():
     assert _url.name is None
 
 def test_url_returns_invalid_simple():
-    with pytest.raises(exceptions.InvalidURLPattern):
+    with pytest.raises(exceptions.InvalidURLRule):
         _url = url('', lambda x: x)
 
-    with pytest.raises(exceptions.InvalidURLPattern):
+    with pytest.raises(exceptions.InvalidURLRule):
         _url = url(10, lambda x: x)
 
     with pytest.raises(exceptions.InvalidURLFunction):

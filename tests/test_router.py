@@ -28,6 +28,7 @@ def test_router_returns_expected(blueprint):
     assert blueprint._static_url_path == '/static_home'
     assert blueprint.import_name == 'module_home'
 
+
 def test_router_registers_correctly(app, blueprint):
     urlpatterns = [
       url('/', view_func=lambda x: x, name='home'),
@@ -49,3 +50,14 @@ def test_router_registers_correctly(app, blueprint):
     # Rules should be added to the app's url map
     assert list(app.url_map.iter_rules())[0].rule == '/test'
     assert list(app.url_map.iter_rules())[1].rule == '/'
+
+
+def test_router_fails_correctly(app, blueprint):
+    urlpatterns = [
+      url('/', view_func=lambda x: x, name='home'),
+      'not a pattern',
+      url('/test', view_func=lambda x: x, name='test')
+    ]
+
+    with pytest.raises(exceptions.InvalidURLPattern):
+      blueprint.register_urls(urlpatterns)

@@ -8,6 +8,7 @@ from .exceptions import (
     InvalidURLFunction,
     InvalidURLName,
     InvalidURLPattern,
+    InvalidURLRule,
     UnspecifiedURLMethods
 )
 
@@ -90,6 +91,9 @@ class Router(Blueprint):
 
     def register_urls(self, urls):
         for _url in urls:
+            if 'flask_microservices.url' not in str(_url.__class__).lower():
+                raise InvalidURLPattern("URLPattern not an instance of `flask_microservices.url`.")
+
             self.add_url_rule(
                 rule=_url.rule,
                 endpoint=_url.name,
@@ -124,7 +128,7 @@ class MicroServicesLoader(DispatchingJinjaLoader):
 
 
 def url(rule, view_func, name=None, methods=["GET"]):
-    """Simple URL wrapper for `Flask-MicroServices.Router`.
+    """Simple URL wrapper for `flask_microservices.Router`.
 
     Usage:
     ```
@@ -142,7 +146,7 @@ def url(rule, view_func, name=None, methods=["GET"]):
     """
 
     if not isinstance(rule, str) or not rule:
-        raise InvalidURLPattern(
+        raise InvalidURLRule(
             "Received an invalid urlpattern `rule`: {}.".format(rule)
         )
 

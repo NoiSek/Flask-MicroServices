@@ -14,6 +14,13 @@ class InvalidURLFunction(Exception):
 
 
 class InvalidURLPattern(Exception):
+  """Raised when a non `flask_microservices.url` value is
+  given as a URLPattern.
+  """
+
+  pass
+
+class InvalidURLRule(Exception):
   """Raised when a non-string value is passed as a rule.
   """
 
