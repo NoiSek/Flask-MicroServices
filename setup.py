@@ -2,7 +2,7 @@
 Flask-MicroServices
 -------------
 
-Brings a form of the microservices concept to Flask with self contained apps and Django style URL routing.
+Brings a form of the microservices concept to Flask with self contained modules and Django style URL routing.
 """
 
 from setuptools import setup
@@ -15,8 +15,7 @@ setup(
     license='MIT',
     author='Noi Sek',
     author_email='noi.t.sek@gmail.com',
-    description='Self contained apps and Django style URL routing for Flask.',
-    long_description=__doc__,
+    description='Self contained modules and Django style URL routing for Flask.',
     py_modules=['flask_microservices'],
     zip_safe=True,
     include_package_data=True,
@@ -27,8 +26,10 @@ setup(
     install_requires=[
         'Flask'
     ],
+    setup_requires=['pandoc', 'setuptools-markdown'],
+    long_description_markdown_filename='README.md',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',
