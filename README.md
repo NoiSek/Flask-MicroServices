@@ -33,6 +33,8 @@ Check out the example project at [./example](example), or read below for a minim
   - [`__init__.py`](#approot-init)
   - `modules/`
     - `home/`
+      - `static/`
+        - [`file.txt`](#module-static-file)
       - `templates/`
         - [`main.html`](#module-template)
       - [`__init__.py`](#module-init)
