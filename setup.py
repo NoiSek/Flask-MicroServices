@@ -10,17 +10,17 @@ from setuptools import setup
 
 setup(
     name='Flask-MicroServices',
-    version='0.34',
+    version='0.34.5',
     url='http://github.com/noisek/Flask-MicroServices',
     license='MIT',
     author='Noi Sek',
     author_email='noi.t.sek@gmail.com',
     description='Self contained modules and Django style URL routing for Flask.',
-    py_modules=['flask_microservices'],
     zip_safe=True,
+    packages = ['flask_microservices'],
     include_package_data=True,
     package_data={
-        'examples': ['example']
+        'examples': ['example', 'README.md']
     },
     platforms='any',
     install_requires=[
