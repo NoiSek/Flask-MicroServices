@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/NoiSek/Flask-MicroServices.svg?branch=master)](https://travis-ci.org/NoiSek/Flask-MicroServices)
 [![Coverage Status](https://coveralls.io/repos/github/NoiSek/Flask-MicroServices/badge.svg?branch=master)](https://coveralls.io/github/NoiSek/Flask-MicroServices?branch=master)
+[![PyPI](https://img.shields.io/pypi/v/flask-microservices.svg)]()
+[![PyPI](https://img.shields.io/pypi/pyversions/flask-microservices.svg)]()
 
 # `Flask-MicroServices`
 
