@@ -161,3 +161,8 @@ Static folder resolves as normal. The `MicroServicesApp` instance will behave wi
 ```
 I am a file! If I could not be found, the Router would attempt to find `project_root/appname/static/file.txt` before 404'ing.
 ```
+
+
+#### Known Issues
+
+- Breaks the 'EXPLAIN_TEMPLATE_LOADING' flask configuration setting.
