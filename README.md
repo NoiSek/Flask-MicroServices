@@ -5,9 +5,13 @@
 
 # `Flask-MicroServices`
 
-Flask-MicroServices is a simple, lightweight attempt at bringing self contained module hierarchy to Flask. Better project organization through separation of concerns, isolating the different sections of your app into separate modules, or 'microservices'.
+Flask-MicroServices is a simple, lightweight attempt at bringing a self contained module hierarchy to Flask. Better project organization through isolation, or "microservices". These are not true microservices, but pantomime the idea of small, sectioned parts of a whole rather than a single large conglomerate.
 
-An opinionated, but minimal approach to higher maintainability with Flask.
+An opinionated, but minimal approach to longterm project maintainability.
+
+## WARNING
+
+Those who use this plugin should be fully aware that it violates the Blueprint contract that many other plugins rely on to provide extended functionality to Flask. You should not use this plugin without first considering whether or not you plan to use plugins that rely on the default Blueprint behavior (e.g. `Flask-Security`).
 
 
 ### Features
@@ -22,9 +26,9 @@ An opinionated, but minimal approach to higher maintainability with Flask.
 - Allow Blueprint defined template folders to override parent templates, rather than the other way around
 - Allow Blueprint defined static folders to resolve from and override `/static`, rather than having to define individual `/static_module_name` folders
 - Enable modular, but centralized definition of routes with a cleaner syntax so that you aren't forced to hunt for `@app.route()` decorators or use the arcane blueprint syntax in complex projects
-- Allow you to drop in / drop out sections of functionality at will just by passing the name of the module for portability, testing, and modularity
+- Allows drop in / drop out functionality of 'microservices' for testing, portability, and modularity
 
-Flask-MicroServices is not exceptionally complex. In fact, it is quite small-- 200-ish lines of code, but it can bring a high level of reasonability to the way you write your Flask applications.
+Flask-MicroServices is not exceptionally complex. In fact, it is quite small-- 200-ish lines of code, but it can bring a high level of reason to the way you write your Flask applications.
 
 
 ### Usage
