@@ -18,8 +18,8 @@ from importlib import import_module
 import os
 import sys
 
-
-FLASK_VERSION = float(__version__)
+# Handle the semantic version as a tuple for easy comparison.
+FLASK_VERSION = tuple(__version__.split('.'))
 
 
 class MicroServicesApp(Flask):
@@ -108,14 +108,14 @@ class MicroServicesLoader(DispatchingJinjaLoader):
             loader = self.app.blueprints[blueprint].jinja_loader
             if loader is not None:
                 # Depending on the version, we must return different things.
-                if FLASK_VERSION <= 0.10: # pragma: no cover
+                if FLASK_VERSION <= ('0','1','0'): # pragma: no cover
                     yield loader, template
                 else:
                     yield blueprint, loader
 
         loader = self.app.jinja_loader
         if loader is not None:
-            if FLASK_VERSION <= 0.10: # pragma: no cover
+            if FLASK_VERSION <= ('0','1','0'): # pragma: no cover
                 yield loader, template
             else:
                 yield self.app, loader
